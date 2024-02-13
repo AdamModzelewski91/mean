@@ -1,0 +1,26 @@
+<mat-spinner *ngIf="isLoading()"></mat-spinner>
+<mat-accordion>
+@if (posts().posts) {
+  @for(post of posts().posts; track post) {
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        {{ post.title }}
+      </mat-expansion-panel-header>
+      <p>{{post.content}}</p>
+      <mat-action-row>
+        <a mat-button color="primary" [routerLink]="['/edit', post.id]">EDIT</a>
+        <button mat-button color="warn" (click)="onDelete(post.id)">DELETE</button>
+      </mat-action-row>
+    </mat-expansion-panel>
+  }
+} @else {
+  <p class="info-text">No posts added yet!</p>
+  }
+</mat-accordion>
+<mat-paginator
+  [length]="totalPosts()"
+  [pageIndex]="currentPage()"
+  [pageSize]="postsPerPage()"
+  [pageSizeOptions]="pageSizeOptions()"
+  (page)="onChangedPage($event)">
+</mat-paginator>
